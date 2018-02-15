@@ -37,6 +37,7 @@ int main() {
       cout << "INVALID!" << endl;
     }
   }
+  return 0;
 }
 
 bool IsInt(string str) {
