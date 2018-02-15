@@ -3,8 +3,40 @@
 
 using namespace std;
 
+bool IsInt(string str);
+bool IsSci(string str);
+bool IsDec(string str);
+bool IsHex(string str);
+bool IsId(string str);
+bool IsKeyword(string str);
+bool IsPhoneNumber(string str);
+
 int main() {
-    return 0;
+  string input;
+  int num;
+  cin >> num;
+  cout << num << endl;
+  for (int i = 1; i <= num; i++) {
+    cin >> input;
+    cout << i << ": ";
+    if (IsKeyword(input)) {
+      cout << "Keyword." << endl;
+    } else if (IsSci(input)) {
+      cout << "Scientific." << endl;
+    } else if (IsDec(input)) {
+      cout << "Decimal." << endl;
+    } else if (IsHex(input)) {
+      cout << "Hexadecimal." << endl;
+    } else if (IsInt(input)) {
+      cout << "Integer." << endl;
+    } else if (IsPhoneNumber(input)) {
+      cout << "Phone." << endl;
+    } else if (IsId(input)) {
+      cout << "Identifier." << endl;
+    } else {
+      cout << "INVALID!" << endl;
+    }
+  }
 }
 
 bool IsInt(string str) {
@@ -108,15 +140,15 @@ bool IsHex(string str) {
   int k;
   for (int i = 0; i < str.length(); i++) {
     k = int(str[i]);
-    if (k < 58 && k >= 48 || k < 91 && k > 65) {
-      if (state == 0 || state == 1) {
-        state = 1;
+     if (k == int('H')) {
+      if (state == 1) {
+        state = 2;
       } else {
         return false;
       }
-    } else if (k == int('H')) {
-      if (state == 1) {
-        state = 2;
+    } else if (k < 58 && k >= 48 || k < 71 && k >= 65) {
+      if (state == 0 || state == 1) {
+        state = 1;
       } else {
         return false;
       }
@@ -156,7 +188,7 @@ bool IsId(string str) {
 }
 
 bool IsKeyword(string str) {
-  return str == "WHILE" || str == "IF" || str == "ELSE" || str == "PRINT";
+  return str == "while" || str == "if" || str == "else" || str == "print";
 }
 
 bool IsPhoneNumber(string str) {
@@ -165,11 +197,11 @@ bool IsPhoneNumber(string str) {
   for (int i = 0; i < str.length(); i++) {
     k = int(str[i]);
     if (k < 58 && k >= 48) {
-      if (state > 0 && state < 3
-      || state > 4 && state < 8
-      || state > 8 && state < 13
-      || state > 13 && state < 16
-      || state > 17 && state < 20) {
+      if (state >= 1 && state <= 3
+      || state >= 4 && state <= 7
+      || state >= 9 && state <= 12
+      || state >= 14 && state <= 15
+      || state >= 17 && state <= 19) {
         state++;
       } else if (state == 0) {
         state = 14;
@@ -199,8 +231,8 @@ bool IsPhoneNumber(string str) {
         return false;
       }
     } else if (k == int(')')) {
-      if (state == 5) {
-        state = 6;
+      if (state == 4) {
+        state = 5;
       } else {
         return false;
       }
